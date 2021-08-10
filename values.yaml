@@ -11,7 +11,7 @@ clientgateway:
 
 image:
   # repository: 098061033856.dkr.ecr.us-east-1.amazonaws.com/ew-dos-dsb-ecr
-  repository: aemocontainerregistry.azurecr.io/dsb/messagebroker
+  repository: aemocontainerregistry.azurecr.io/dsb/client-gateway
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: "latest"
