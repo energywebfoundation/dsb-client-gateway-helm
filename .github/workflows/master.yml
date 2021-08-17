@@ -17,8 +17,14 @@ jobs:
   semantic-version:
     name: Create semantic versioning
     runs-on: ubuntu-latest
+    needs: [cancel-previous]
     steps:
-      - uses: paulhatch/semantic-version@v4.0.2
+      - name: Chekout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Semantic version
+        uses: paulhatch/semantic-version@v4.0.2
         with:
           # The prefix to use to identify tags
           tag_prefix: "v"
