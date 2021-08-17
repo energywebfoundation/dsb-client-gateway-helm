@@ -15,7 +15,7 @@ jobs:
           access_token: ${{ github.token }}
   
   semantic-version:
-    name: Semantic version
+    name: Semantic versioning
     runs-on: ubuntu-latest
     needs: [cancel-previous]
     steps:
