@@ -1,0 +1,1 @@
+This is a repository with helm chart for DSB Client Gateway application.
