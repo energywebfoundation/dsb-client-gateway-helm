@@ -48,4 +48,4 @@ jobs:
         with:
           tag_name: ${{ steps.sem_ver.outputs.version_tag }}
           release_name: Release ${{ steps.sem_ver.outputs.version_tag }}
-          prerelease: true
+          draft: true
