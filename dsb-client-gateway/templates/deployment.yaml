@@ -44,12 +44,92 @@ spec:
               valueFrom:
                 configMapKeyRef:
                   name: {{ include "dsb-client-gateway.fullname" . }}-configmap
-                  key: messagebrokerPort
-            - name: NATS_JS_URL
+                  key: PORT
+            - name: WEBSOCKET
               valueFrom:
                 configMapKeyRef:
                   name: {{ include "dsb-client-gateway.fullname" . }}-configmap
-                  key: natsUrl
+                  key: WEBSOCKET
+            - name: WEBSOCKET_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "dsb-client-gateway.fullname" . }}-configmap
+                  key: WEBSOCKET_URL
+            - name: WEBSOCKET_RECONNECT
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "dsb-client-gateway.fullname" . }}-configmap
+                  key: WEBSOCKET_RECONNECT
+            - name: WEBSOCKET_RECONNECT_TIMEOUT
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "dsb-client-gateway.fullname" . }}-configmap
+                  key: WEBSOCKET_RECONNECT_TIMEOUT
+            - name: WEBSOCKET_RECONNECT_MAX_RETRIES
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "dsb-client-gateway.fullname" . }}-configmap
+                  key: WEBSOCKET_RECONNECT_MAX_RETRIES
+            - name: EVENTS_EMIT_MODE
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "dsb-client-gateway.fullname" . }}-configmap
+                  key: EVENTS_EMIT_MODE
+            - name: EVENTS_MAX_PER_SECOND
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "dsb-client-gateway.fullname" . }}-configmap
+                  key: EVENTS_MAX_PER_SECOND
+            - name: DSB_BASE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "dsb-client-gateway.fullname" . }}-configmap
+                  key: DSB_BASE_URL
+            - name: DSB_CONTROLLABLE
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "dsb-client-gateway.fullname" . }}-configmap
+                  key: DSB_CONTROLLABLE
+            - name: DSB_PM2_PROCESS_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "dsb-client-gateway.fullname" . }}-configmap
+                  key: DSB_PM2_PROCESS_NAME
+            - name: DSB_BIN_PATH
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "dsb-client-gateway.fullname" . }}-configmap
+                  key: DSB_BIN_PATH
+            - name: IN_MEMORY_DB_FILENAME
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "dsb-client-gateway.fullname" . }}-configmap
+                  key: IN_MEMORY_DB_FILENAME
+            - name: CHAIN_ID
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "dsb-client-gateway.fullname" . }}-configmap
+                  key: CHAIN_ID
+            - name: RPC_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "dsb-client-gateway.fullname" . }}-configmap
+                  key: RPC_URL
+            - name: CACHE_SERVER_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "dsb-client-gateway.fullname" . }}-configmap
+                  key: CACHE_SERVER_URL
+            - name: EVENT_SERVER_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "dsb-client-gateway.fullname" . }}-configmap
+                  key: EVENT_SERVER_URL
+            - name: PARENT_NAMESPACE
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "dsb-client-gateway.fullname" . }}-configmap
+                  key: PARENT_NAMESPACE
           # livenessProbe:
           #   httpGet:
           #     path: /
