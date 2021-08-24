@@ -8,6 +8,7 @@ data:
   PORT: {{ .Values.clientgateway.config.port | quote }}
   WEBSOCKET: {{ .Values.clientgateway.config.websocket | quote }}
   WEBSOCKET_URL: {{ .Values.clientgateway.config.websocket_url | quote }}
+  WEBSOCKET_PROTOCOL: {{ .Values.clientgateway.config.websocket_protocol | quote }}
   WEBSOCKET_RECONNECT: {{ .Values.clientgateway.config.websocket_reconnect | quote }}
   WEBSOCKET_RECONNECT_TIMEOUT: {{ .Values.clientgateway.config.websocket_reconnect_timeout | quote }}
   WEBSOCKET_RECONNECT_MAX_RETRIES: {{ .Values.clientgateway.config.websocket_reconnect_max_retries | quote }}
@@ -15,6 +16,7 @@ data:
   EVENTS_MAX_PER_SECOND: {{ .Values.clientgateway.config.events_max_per_second | quote }}
   DSB_BASE_URL: {{ .Values.clientgateway.config.dsb_base_url | quote }}
   DSB_CONTROLLABLE: {{ .Values.clientgateway.config.dsb_controllable | quote }}
+  DSB_CONTROL_TYPE: {{ .Values.clientgateway.config.dsb_control_type | quote }}
   DSB_PM2_PROCESS_NAME: {{ .Values.clientgateway.config.dsb_pm2_process_name | quote }}
   DSB_BIN_PATH: {{ .Values.clientgateway.config.dsb_bin_path | quote }}
   IN_MEMORY_DB_FILENAME: {{ .Values.clientgateway.config.in_memory_db_filename | quote }}

@@ -12,6 +12,8 @@ clientgateway:
     websocket: SERVER
     # -- Sets the URL of the WebSocket server the client should try to connect to. Required if WEBSOCKET is set to CLIENT.
     websocket_url: ws://localhost:5001/
+    # -- Sets the protocol the WebSocket client should request access to. Acceptable protocols are defined by the WebSocket server, however, this can also be left undefined. Note that if WEBSOCKET is set to SERVER this variable is ignored. The server will only accept connection requests on the dsb-messages protocol.
+    websocket_protocol: ""
     # -- Define whether the WebSocket client should reconnect on connection error/close.
     websocket_reconnect: true
     # -- Define the interval between receiving a connection error/close and attempting to reconnect, in milliseconds.
@@ -26,6 +28,8 @@ clientgateway:
     dsb_base_url: http://dsb-dev.energyweb.org
     # -- This allows the DSB Message Broker to be controlled by the DSB Client Gateway. In this situation, the identities of both components are shared. This means that a single private key is used for each component and, in addition to the user DSB role, the gateway will enrol itself as a messagebroker. If a DSB_CONTROL_TYPE is also provided, the gateway may spawn a process with the chosen method, in order to configure it (i.e. setting the same private key).
     dsb_controllable: false
+    # -- Used in conjunction with DSB_CONTROLLABLE, the DSB_CONTROL_TYPE defines how the DSB Client Gateway controls the DSB Message Broker. Options: pm2
+    dsb_control_type: ""
     # -- If DSB_CONTROL_TYPE is set to pm2, set the name of the DSB Message Broker process which will be controlled by the gateway.
     dsb_pm2_process_name: dsb-message-broker
     # -- Sets the path of the message broker to control if DSB_CONTROL_TYPE is set to pm2. Can be relative (from the current working directory) or absolute. The message broker must be built first for this to work.
