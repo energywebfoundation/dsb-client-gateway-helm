@@ -39,17 +39,9 @@ spec:
               protocol: TCP
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-          env:
-            - name: PORT
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ include "dsb-client-gateway.fullname" . }}-configmap
-                  key: messagebrokerPort
-            - name: NATS_JS_URL
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ include "dsb-client-gateway.fullname" . }}-configmap
-                  key: natsUrl
+          envFrom:
+            - configMapRef:
+                name: {{ include "dsb-client-gateway.fullname" . }}-configmap
           # livenessProbe:
           #   httpGet:
           #     path: /
