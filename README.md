@@ -15,7 +15,7 @@ For more information about DSB Client Gateway please check the [repository](http
 ```
 minikube start
 
-helm install dsb-client-demo https://github.com/energywebfoundation/dsb-client-gateway-helm/archive/refs/tags/v0.3.0.tar.gz
+helm install dsb-client-demo https://github.com/energywebfoundation/dsb-client-gateway-helm/archive/refs/tags/v0.3.1.tar.gz
 
 kubectl get pods
 ```
