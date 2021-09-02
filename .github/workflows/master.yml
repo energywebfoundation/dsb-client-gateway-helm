@@ -2,7 +2,7 @@ name: Semantic versioning
 
 on:
   push:
-    branches: [ DOI-1155-Define-and-document-helm-lifecycle-management-compatible-with-ArgoCD ]
+    branches: [ master ]
 
 jobs:
   cancel-previous:
