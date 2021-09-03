@@ -61,13 +61,17 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
+      - uses: azure/setup-helm@v1
+        with:
+          version: '3.6.3' # default is latest stable
+        id: install
+
       - name: Azure CLI deploy to ACR
         uses: azure/CLI@v1
         if: ${{ steps.sem_ver.outputs.changed == 'true' }}
         with:
           azcliversion: 2.27.2
           inlineScript: |
-            az acr helm install-cli --yes
             helm package .
             az acr helm repo add -n ${{ secrets.HELM_REGISTRY }}
             az acr helm push -n ${{ secrets.HELM_REGISTRY }} dsb-client-gateway-${{ steps.sem_ver.outputs.major }}.${{ steps.sem_ver.outputs.minor }}.${{ steps.sem_ver.outputs.patch }}.tgz
