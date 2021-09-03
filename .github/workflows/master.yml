@@ -55,11 +55,6 @@ jobs:
           release_name: Release ${{ steps.sem_ver.outputs.version_tag }}
           draft: true
 
-      - name: Package Helm chart
-        uses: WyriHaximus/github-action-helm3@v2
-        with:
-          exec: helm package .
-
       - name: Azure Login
         uses: azure/login@v1
         if: ${{ steps.sem_ver.outputs.changed == 'true' }}
@@ -70,7 +65,9 @@ jobs:
         uses: azure/CLI@v1
         if: ${{ steps.sem_ver.outputs.changed == 'true' }}
         with:
-          azcliversion: 2.0.72
+          azcliversion: 2.27.2
           inlineScript: |
+            az acr helm install-cli
+            helm package .
             az acr helm repo add -n ${{ secrets.HELM_REGISTRY }}
             az acr helm push -n ${{ secrets.HELM_REGISTRY }} dsb-client-gateway-${{ steps.sem_ver.outputs.major }}.${{ steps.sem_ver.outputs.minor }}.${{ steps.sem_ver.outputs.patch }}.tgz
