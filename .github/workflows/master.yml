@@ -67,7 +67,7 @@ jobs:
         with:
           azcliversion: 2.27.2
           inlineScript: |
-            az acr helm install-cli
+            az acr helm install-cli --yes
             helm package .
             az acr helm repo add -n ${{ secrets.HELM_REGISTRY }}
             az acr helm push -n ${{ secrets.HELM_REGISTRY }} dsb-client-gateway-${{ steps.sem_ver.outputs.major }}.${{ steps.sem_ver.outputs.minor }}.${{ steps.sem_ver.outputs.patch }}.tgz
