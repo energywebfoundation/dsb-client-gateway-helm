@@ -44,19 +44,6 @@ jobs:
           short_tags: false
           # If this is set to true, *every* commit will be treated as a new version.
           bump_each_commit: false
-
-      - name: Create helm versioning
-        id: helm_ver
-        uses: paulhatch/semantic-version@v4.0.2
-        with:
-          # Without any prefix for helm!
-          tag_prefix: ""
-          major_pattern: "(MAJOR)"
-          minor_pattern: "(MINOR)"
-          format: "${major}.${minor}.${patch}-prerelease${increment}"
-          change_path: "Chart.yaml"
-          short_tags: false
-          bump_each_commit: false
           
       - name: Create a GitHub release
         uses: actions/create-release@v1
@@ -83,4 +70,4 @@ jobs:
             az acr helm install-cli
             helm package .
             az acr helm repo add -n ${{ secrets.HELM_REGISTRY }}
-            az acr helm push -n ${{ secrets.HELM_REGISTRY }} dsb-client-gateway-${{ steps.helm_ver.outputs.version_tag }}.tgz
+            az acr helm push -n ${{ secrets.HELM_REGISTRY }} dsb-client-gateway-${{ steps.sem_ver.outputs.major }}.${{ steps.sem_ver.outputs.minor }}.${{ steps.sem_ver.outputs.patch }}.tgz
