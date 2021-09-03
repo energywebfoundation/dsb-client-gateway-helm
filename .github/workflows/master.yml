@@ -2,7 +2,7 @@ name: Semantic versioning
 
 on:
   push:
-    branches: [ master ]
+    branches: [ DOI-1155-Define-and-document-helm-lifecycle-management-compatible-with-ArgoCD ]
 
 jobs:
   cancel-previous:
@@ -44,6 +44,20 @@ jobs:
           short_tags: false
           # If this is set to true, *every* commit will be treated as a new version.
           bump_each_commit: false
+
+      - name: Create helm versioning
+        id: helm_ver
+        uses: paulhatch/semantic-version@v4.0.2
+        with:
+          # Without any prefix for helm!
+          tag_prefix: ""
+          major_pattern: "(MAJOR)"
+          minor_pattern: "(MINOR)"
+          format: "${major}.${minor}.${patch}-prerelease${increment}"
+          change_path: "Chart.yaml"
+          short_tags: false
+          bump_each_commit: false
+          
       - name: Create a GitHub release
         uses: actions/create-release@v1
         if: ${{ steps.sem_ver.outputs.changed == 'true' }}
@@ -53,3 +67,20 @@ jobs:
           tag_name: ${{ steps.sem_ver.outputs.version_tag }}
           release_name: Release ${{ steps.sem_ver.outputs.version_tag }}
           draft: true
+
+      - name: Azure Login
+        uses: azure/login@v1
+        if: ${{ steps.sem_ver.outputs.changed == 'true' }}
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Azure CLI deploy to ACR
+        uses: azure/CLI@v1
+        if: ${{ steps.sem_ver.outputs.changed == 'true' }}
+        with:
+          azcliversion: 2.0.72
+          inlineScript: |
+            az acr helm install-cli
+            helm package .
+            az acr helm repo add -n ${{ secrets.HELM_REGISTRY }}
+            az acr helm push -n ${{ secrets.HELM_REGISTRY }} dsb-client-gateway-${{ steps.helm_ver.outputs.version_tag }}.tgz
