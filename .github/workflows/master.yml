@@ -44,6 +44,7 @@ jobs:
           short_tags: false
           # If this is set to true, *every* commit will be treated as a new version.
           bump_each_commit: false
+          
       - name: Create a GitHub release
         uses: actions/create-release@v1
         if: ${{ steps.sem_ver.outputs.changed == 'true' }}
@@ -52,4 +53,19 @@ jobs:
         with:
           tag_name: ${{ steps.sem_ver.outputs.version_tag }}
           release_name: Release ${{ steps.sem_ver.outputs.version_tag }}
-          draft: true
+
+      - name: Azure Login
+        uses: azure/login@v1
+        if: ${{ steps.sem_ver.outputs.changed == 'true' }}
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Azure CLI deploy to ACR
+        uses: azure/CLI@v1
+        if: ${{ steps.sem_ver.outputs.changed == 'true' }}
+        with:
+          azcliversion: 2.27.2
+          inlineScript: |
+            az acr helm install-cli --client-version 3.6.3 --yes
+            helm package .
+            az acr helm push -n ${{ secrets.HELM_REGISTRY }} dsb-client-gateway-${{ steps.sem_ver.outputs.major }}.${{ steps.sem_ver.outputs.minor }}.${{ steps.sem_ver.outputs.patch }}.tgz
