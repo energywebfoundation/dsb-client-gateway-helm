@@ -5,6 +5,7 @@ metadata:
   labels:
     {{- include "dsb-client-gateway.labels" . | nindent 4 }}
 data:
+  NATS_JS_URL: {{ .Values.clientgateway.config.nats_js_url | quote }}
   PORT: {{ .Values.clientgateway.config.port | quote }}
   WEBSOCKET: {{ .Values.clientgateway.config.websocket | quote }}
   WEBSOCKET_URL: {{ .Values.clientgateway.config.websocket_url | quote }}
