@@ -1,6 +1,6 @@
 # dsb-client-gateway
 
-![Version: 0.4.3](https://img.shields.io/badge/Version-0.4.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.2.0](https://img.shields.io/badge/AppVersion-0.2.0-informational?style=flat-square)
+![Version: 1.0.0](https://img.shields.io/badge/Version-1.0.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.4.0](https://img.shields.io/badge/AppVersion-0.4.0-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -15,7 +15,7 @@ For more information about DSB Client Gateway please check the [repository](http
 ```
 minikube start
 
-helm install dsb-client-demo https://github.com/energywebfoundation/dsb-client-gateway-helm/archive/refs/tags/v0.4.3.tar.gz
+helm install dsb-client-demo https://github.com/energywebfoundation/dsb-client-gateway-helm/archive/refs/tags/v1.0.0.tar.gz
 
 kubectl get pods
 ```
