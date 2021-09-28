@@ -124,3 +124,10 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+pvc:
+  enabled: true
+  storageClassName: managed-premium
+  accessMode: ReadWriteOnce
+  capacity: 1Gi
+  mountPath: /mnt/azure
