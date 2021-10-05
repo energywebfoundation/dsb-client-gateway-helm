@@ -44,11 +44,11 @@ spec:
                 name: {{ include "dsb-client-gateway.fullname" . }}-configmap
           livenessProbe:
             httpGet:
-              path: /
+              path: /api/health
               port: http
           readinessProbe:
             httpGet:
-              path: /
+              path: /api/health
               port: http
       {{- with .Values.nodeSelector }}
       nodeSelector:
