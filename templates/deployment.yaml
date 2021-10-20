@@ -50,16 +50,29 @@ spec:
             httpGet:
               path: /
               port: http
-          {{- if .Values.pvc.enabled }}
+          {{- if or .Values.pvc.enabled .Values.existingClaim.enabled }}
           volumeMounts:
+          {{- if .Values.pvc.enabled }}
           - mountPath: {{ .Values.pvc.mountPath | quote }}
             name: volume
           {{- end }}
-      {{- if .Values.pvc.enabled }}
+          {{- if .Values.existingClaim.enabled }}
+          - mountPath: {{ .Values.existingClaim.mountPath | quote }}
+            name: existingclaim
+          {{- end }}
+          {{- end }}
+      {{- if or .Values.pvc.enabled .Values.existingClaim.enabled }}
       volumes:
+        {{- if .Values.pvc.enabled }}
         - name: volume
           persistentVolumeClaim:
             claimName: {{ include "dsb-client-gateway.fullname" . }}
+        {{- end }}
+        {{- if .Values.existingClaim.enabled }}
+        - name: existingclaim
+          persistentVolumeClaim:
+            claimName: {{ .Values.existingClaim.claimName | quote }}
+        {{- end }}
       {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:

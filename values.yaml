@@ -126,8 +126,13 @@ tolerations: []
 affinity: {}
 
 pvc:
-  enabled: true
+  enabled: false
   storageClassName: default
   accessMode: ReadWriteOnce
   capacity: 1Gi
   mountPath: /mnt/azure
+
+existingClaim:
+  enabled: false
+  claimName: data-postgres-postgresql-0
+  mountPath: /mnt/claim
