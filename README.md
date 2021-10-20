@@ -48,7 +48,7 @@ kubectl get pods
 | clientgateway.config.websocket_reconnect_max_retries | int | `10` | Define how many times the WebSocket client should attempt reconnection with the server upon receving connection error/close. |
 | clientgateway.config.websocket_reconnect_timeout | int | `10000` | Define the interval between receiving a connection error/close and attempting to reconnect, in milliseconds. |
 | clientgateway.config.websocket_url | string | `"ws://localhost:5001/"` | Sets the URL of the WebSocket server the client should try to connect to. Required if WEBSOCKET is set to CLIENT. |
-| existingClaim.claimName | string | `"data-postgres-postgresql-0"` |  |
+| existingClaim.claimName | string | `"my-claim"` |  |
 | existingClaim.enabled | bool | `false` |  |
 | existingClaim.mountPath | string | `"/mnt/claim"` |  |
 | fullnameOverride | string | `"dsb-client-gateway"` |  |
