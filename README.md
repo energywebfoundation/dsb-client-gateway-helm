@@ -3,12 +3,10 @@
 ![Version: 1.0.0](https://img.shields.io/badge/Version-1.0.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.4.0](https://img.shields.io/badge/AppVersion-0.4.0-informational?style=flat-square)
 
 A Helm chart for Kubernetes
-
 ## Introduction
 This is a repository with helm chart for DSB Client Gateway application.
 
 For more information about DSB Client Gateway please check the [repository](https://github.com/energywebfoundation/dsb-client-gateway).
-
 
 ## Quickstart
 
@@ -40,15 +38,19 @@ kubectl get pods
 | clientgateway.config.events_emit_mode | string | `"BULK"` | Defines the format for messages pushed over a real-time communication channel. If bulk mode is chosen, messages will be sent as an array. At every 1 second interval, the gateway will emit an array of the latest messages received. If single mode is chosen, messages will be sent individually. Options: BULK, SINGLE |
 | clientgateway.config.events_max_per_second | int | `100` | Defines how many events should be pushed per second, regardless of mode chosen (see above). |
 | clientgateway.config.in_memory_db_filename | string | `"in-memory.json"` | Sets the filename of the JSON file the DSB Client Gateway will write to. The file will be written to the current working directory (subject to change). |
+| clientgateway.config.nats_js_url | string | `"nats://dsb-nats.dsb.svc:4222"` |  |
 | clientgateway.config.parent_namespace | string | `"dsb.apps.energyweb.iam.ewc"` | Sets the Energy Web IAM application namespace. DSB related roles, such as user and messagebroker should fall under this namespace. |
 | clientgateway.config.port | int | `3000` | Define the port the gateway will run on. |
 | clientgateway.config.rpc_url | string | `"https://volta-rpc.energyweb.org/"` | Sets the blockchain RPC node to connect to retreive state from and submit transactions to. Should match the network given in CHAIN_ID. |
-| clientgateway.config.websocket | string | `"SERVER"` | Select WebSocket mode depending on architecture (i.e. preference for inbound or outbound connections). By default, the gateway will run a WebSocket server on /events. However, it can also operate as a client with additional configuration (see below). Alternatively, this functionality can be turned off. Options: SERVER, CLIENT, NONE |
+| clientgateway.config.websocket | string | `"NONE"` | Select WebSocket mode depending on architecture (i.e. preference for inbound or outbound connections). By default, the gateway will run a WebSocket server on /events. However, it can also operate as a client with additional configuration (see below). Alternatively, this functionality can be turned off. Options: SERVER, CLIENT, NONE |
 | clientgateway.config.websocket_protocol | string | `""` | Sets the protocol the WebSocket client should request access to. Acceptable protocols are defined by the WebSocket server, however, this can also be left undefined. Note that if WEBSOCKET is set to SERVER this variable is ignored. The server will only accept connection requests on the dsb-messages protocol. |
 | clientgateway.config.websocket_reconnect | bool | `true` | Define whether the WebSocket client should reconnect on connection error/close. |
 | clientgateway.config.websocket_reconnect_max_retries | int | `10` | Define how many times the WebSocket client should attempt reconnection with the server upon receving connection error/close. |
 | clientgateway.config.websocket_reconnect_timeout | int | `10000` | Define the interval between receiving a connection error/close and attempting to reconnect, in milliseconds. |
 | clientgateway.config.websocket_url | string | `"ws://localhost:5001/"` | Sets the URL of the WebSocket server the client should try to connect to. Required if WEBSOCKET is set to CLIENT. |
+| existingClaim.claimName | string | `"data-postgres-postgresql-0"` |  |
+| existingClaim.enabled | bool | `false` |  |
+| existingClaim.mountPath | string | `"/mnt/claim"` |  |
 | fullnameOverride | string | `"dsb-client-gateway"` |  |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
 | image.repository | string | `"aemocontainerregistry.azurecr.io/dsb/client-gateway"` |  |
@@ -66,11 +68,16 @@ kubectl get pods
 | nodeSelector | object | `{}` |  |
 | podAnnotations | object | `{}` |  |
 | podSecurityContext | object | `{}` |  |
+| pvc.accessMode | string | `"ReadWriteOnce"` |  |
+| pvc.capacity | string | `"1Gi"` |  |
+| pvc.enabled | bool | `false` |  |
+| pvc.mountPath | string | `"/mnt/azure"` |  |
+| pvc.storageClassName | string | `"default"` |  |
 | replicaCount | int | `1` |  |
 | resources | object | `{}` |  |
 | securityContext | object | `{}` |  |
 | service.port | int | `80` |  |
-| service.type | string | `"LoadBalancer"` |  |
+| service.type | string | `"ClusterIP"` |  |
 | serviceAccount.annotations | object | `{}` |  |
 | serviceAccount.create | bool | `true` |  |
 | serviceAccount.name | string | `""` |  |
