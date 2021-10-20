@@ -134,5 +134,5 @@ pvc:
 
 existingClaim:
   enabled: false
-  claimName: data-postgres-postgresql-0
+  claimName: my-claim
   mountPath: /mnt/claim
