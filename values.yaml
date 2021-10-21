@@ -115,3 +115,15 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+pvc:
+  enabled: false
+  storageClassName: default
+  accessMode: ReadWriteOnce
+  capacity: 1Gi
+  mountPath: /mnt/azure
+
+existingClaim:
+  enabled: false
+  claimName: my-claim
+  mountPath: /mnt/claim

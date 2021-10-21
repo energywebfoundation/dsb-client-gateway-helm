@@ -1,0 +1,15 @@
+{{- if .Values.pvc.enabled }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "dsb-client-gateway.fullname" . }}
+  labels:
+    {{- include "dsb-client-gateway.labels" . | nindent 4 }}
+spec:
+ storageClassName: {{ .Values.pvc.storageClassName | quote }}
+ accessModes:
+    - {{ .Values.pvc.accessMode | quote }}
+ resources:
+   requests:
+     storage: {{ .Values.pvc.capacity | quote }}
+{{- end }}
