@@ -25,7 +25,7 @@ clientgateway:
     # -- Defines how many events should be pushed per second, regardless of mode chosen (see above).
     events_max_per_second: 100
     # -- The URL of the DSB Message Broker you want to connect to. Trailing / allowed.
-    dsb_base_url: https://dsb-dev.energyweb.org
+    dsb_base_url: https://dsb-demo.energyweb.org
     # -- Sets the filename of the JSON file the DSB Client Gateway will write to. The file will be written to the current working directory (subject to change).
     in_memory_db_filename: in-memory.json
     # -- Sets the chain ID of the blockchain network. Options: 73799 (Volta), 246 (EWC)
@@ -33,9 +33,9 @@ clientgateway:
     # -- Sets the blockchain RPC node to connect to retreive state from and submit transactions to. Should match the network given in CHAIN_ID.
     rpc_url: https://volta-rpc.energyweb.org/
     # -- Sets the Energy Web IAM cache server URL, used to cache identities (as it can be expensive to rely only on querying smart contract data).
-    cache_server_url: https://identitycache-dev.energyweb.org/v1/
+    cache_server_url: https://volta-identitycache.energyweb.org/v1
     # -- Sets the Energy Web IAM events server URL, used to receive notification of approved DSB role claims.
-    event_server_url: https://identityevents-dev.energyweb.org/
+    event_server_url: https://volta-identitycache.energyweb.org/
     # -- Sets the Energy Web IAM application namespace. DSB related roles, such as user and messagebroker should fall under this namespace.
     parent_namespace: dsb.apps.energyweb.iam.ewc
 image:

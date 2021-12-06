@@ -27,10 +27,10 @@ kubectl get pods
 | autoscaling.maxReplicas | int | `100` |  |
 | autoscaling.minReplicas | int | `1` |  |
 | autoscaling.targetCPUUtilizationPercentage | int | `80` |  |
-| clientgateway.config.cache_server_url | string | `"https://identitycache-dev.energyweb.org/v1/"` | Sets the Energy Web IAM cache server URL, used to cache identities (as it can be expensive to rely only on querying smart contract data). |
+| clientgateway.config.cache_server_url | string | `"https://volta-identitycache.energyweb.org/v1"` | Sets the Energy Web IAM cache server URL, used to cache identities (as it can be expensive to rely only on querying smart contract data). |
 | clientgateway.config.chain_id | int | `73799` | Sets the chain ID of the blockchain network. Options: 73799 (Volta), 246 (EWC) |
-| clientgateway.config.dsb_base_url | string | `"https://dsb-dev.energyweb.org"` | The URL of the DSB Message Broker you want to connect to. Trailing / allowed. |
-| clientgateway.config.event_server_url | string | `"https://identityevents-dev.energyweb.org/"` | Sets the Energy Web IAM events server URL, used to receive notification of approved DSB role claims. |
+| clientgateway.config.dsb_base_url | string | `"https://dsb-demo.energyweb.org"` | The URL of the DSB Message Broker you want to connect to. Trailing / allowed. |
+| clientgateway.config.event_server_url | string | `"https://volta-identitycache.energyweb.org/"` | Sets the Energy Web IAM events server URL, used to receive notification of approved DSB role claims. |
 | clientgateway.config.events_emit_mode | string | `"BULK"` | Defines the format for messages pushed over a real-time communication channel. If bulk mode is chosen, messages will be sent as an array. At every 1 second interval, the gateway will emit an array of the latest messages received. If single mode is chosen, messages will be sent individually. Options: BULK, SINGLE |
 | clientgateway.config.events_max_per_second | int | `100` | Defines how many events should be pushed per second, regardless of mode chosen (see above). |
 | clientgateway.config.in_memory_db_filename | string | `"in-memory.json"` | Sets the filename of the JSON file the DSB Client Gateway will write to. The file will be written to the current working directory (subject to change). |
