@@ -2,7 +2,7 @@ name: Semantic versioning
 
 on:
   push:
-    branches: [ master ]
+    branches: [ aemo-test ]
 
 jobs:
   cancel-previous:
@@ -45,14 +45,14 @@ jobs:
           # If this is set to true, *every* commit will be treated as a new version.
           bump_each_commit: false
           
-      - name: Create a GitHub release
-        uses: actions/create-release@v1
-        if: ${{ steps.sem_ver.outputs.changed == 'true' }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ steps.sem_ver.outputs.version_tag }}
-          release_name: Release ${{ steps.sem_ver.outputs.version_tag }}
+      # - name: Create a GitHub release
+      #   uses: actions/create-release@v1
+      #   if: ${{ steps.sem_ver.outputs.changed == 'true' }}
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     tag_name: ${{ steps.sem_ver.outputs.version_tag }}
+      #     release_name: Release ${{ steps.sem_ver.outputs.version_tag }}
 
       - name: Azure Login
         uses: azure/login@v1
@@ -64,7 +64,7 @@ jobs:
         uses: azure/CLI@v1
         if: ${{ steps.sem_ver.outputs.changed == 'true' }}
         with:
-          azcliversion: 2.27.2
+          azcliversion: 2.30.0
           inlineScript: |
             az acr helm install-cli --client-version 3.6.3 --yes
             helm package .
