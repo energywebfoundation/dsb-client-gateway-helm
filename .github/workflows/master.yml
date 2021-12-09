@@ -23,27 +23,27 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - name: Create semantic versioning
-        id: sem_ver
-        uses: paulhatch/semantic-version@v4.0.2
-        with:
-          # The prefix to use to identify tags
-          tag_prefix: "v"
-          # A string which, if present in a git commit, indicates that a change represents a
-          # major (breaking) change, supports regular expressions wrapped with '/'
-          major_pattern: "(MAJOR)"
-          # Same as above except indicating a minor change, supports regular expressions wrapped with '/'
-          minor_pattern: "(MINOR)"
-          # A string to determine the format of the version output
-          format: "${major}.${minor}.${patch}-prerelease${increment}"
-          # Optional path to check for changes. If any changes are detected in the path the
-          # 'changed' output will true. Enter multiple paths separated by spaces.
-          change_path: "Chart.yaml"
-          # Indicate whether short tags like 'v1' should be supported. If false only full
-          # tags like 'v1.0.0' will be recognized.
-          short_tags: false
-          # If this is set to true, *every* commit will be treated as a new version.
-          bump_each_commit: false
+      # - name: Create semantic versioning
+      #   id: sem_ver
+      #   uses: paulhatch/semantic-version@v4.0.2
+      #   with:
+      #     # The prefix to use to identify tags
+      #     tag_prefix: "v"
+      #     # A string which, if present in a git commit, indicates that a change represents a
+      #     # major (breaking) change, supports regular expressions wrapped with '/'
+      #     major_pattern: "(MAJOR)"
+      #     # Same as above except indicating a minor change, supports regular expressions wrapped with '/'
+      #     minor_pattern: "(MINOR)"
+      #     # A string to determine the format of the version output
+      #     format: "${major}.${minor}.${patch}-prerelease${increment}"
+      #     # Optional path to check for changes. If any changes are detected in the path the
+      #     # 'changed' output will true. Enter multiple paths separated by spaces.
+      #     change_path: "Chart.yaml"
+      #     # Indicate whether short tags like 'v1' should be supported. If false only full
+      #     # tags like 'v1.0.0' will be recognized.
+      #     short_tags: false
+      #     # If this is set to true, *every* commit will be treated as a new version.
+      #     bump_each_commit: false
           
       # - name: Create a GitHub release
       #   uses: actions/create-release@v1
@@ -68,4 +68,4 @@ jobs:
           inlineScript: |
             az acr helm install-cli --client-version 3.6.3 --yes
             helm package .
-            az acr helm push -n ${{ secrets.HELM_REGISTRY }} dsb-client-gateway-${{ steps.sem_ver.outputs.major }}.${{ steps.sem_ver.outputs.minor }}.${{ steps.sem_ver.outputs.patch }}.tgz
+            az acr helm push -n ${{ secrets.HELM_REGISTRY }} dsb-client-gateway-1.0.1.tgz
