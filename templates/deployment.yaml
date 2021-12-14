@@ -42,14 +42,18 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ include "dsb-client-gateway.fullname" . }}-configmap
+          {{- if .Values.probes.liveness }}
           livenessProbe:
             httpGet:
               path: /api/health
               port: http
+          {{- end }}
+          {{- if .Values.probes.readiness }}
           readinessProbe:
             httpGet:
               path: /api/health
               port: http
+          {{- end }}
           {{- if or .Values.pvc.enabled .Values.existingClaim.enabled }}
           volumeMounts:
           {{- if .Values.pvc.enabled }}

@@ -19,7 +19,7 @@ For more information about DSB Client Gateway please check the [repository](http
 minikube start
 
 
-helm install dsb-client-demo https://github.com/energywebfoundation/dsb-client-gateway-helm/archive/refs/tags/v1.0.0.tar.gz
+helm install dsb-client-demo https://github.com/energywebfoundation/dsb-client-gateway-helm/archive/refs/tags/v1.1.2.tar.gz
 
 
 kubectl get pods
@@ -40,7 +40,7 @@ type: application
 # This is the chart version. This version number should be incremented each time you make changes
 # to the chart and its templates, including the app version.
 # Versions are expected to follow Semantic Versioning (https://semver.org/)
-version: 1.1.1
+version: 1.1.2
 
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application. Versions are not expected to
