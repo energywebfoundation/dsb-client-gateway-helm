@@ -127,3 +127,7 @@ existingClaim:
   enabled: false
   claimName: my-claim
   mountPath: /mnt/claim
+
+probes: 
+  liveness: true
+  readiness: true
