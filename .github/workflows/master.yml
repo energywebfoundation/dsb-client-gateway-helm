@@ -64,7 +64,7 @@ jobs:
         uses: azure/CLI@v1
         if: ${{ steps.sem_ver.outputs.changed == 'true' }}
         with:
-          azcliversion: 2.27.2
+          azcliversion: 2.30.0
           inlineScript: |
             az acr helm install-cli --client-version 3.6.3 --yes
             helm package .
