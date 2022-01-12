@@ -1,6 +1,6 @@
 # dsb-client-gateway
 
-![Version: 1.1.2](https://img.shields.io/badge/Version-1.1.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.4.0](https://img.shields.io/badge/AppVersion-0.4.0-informational?style=flat-square)
+![Version: 1.1.3](https://img.shields.io/badge/Version-1.1.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.4.0](https://img.shields.io/badge/AppVersion-0.4.0-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 ## Introduction
@@ -27,6 +27,7 @@ kubectl get pods
 | autoscaling.maxReplicas | int | `100` |  |
 | autoscaling.minReplicas | int | `1` |  |
 | autoscaling.targetCPUUtilizationPercentage | int | `80` |  |
+| clientgateway.config.basic_auth_enabled | bool | `false` | Enable basic auth. (Once enabled, associated secret is required, eg: "dsb-client-gateway-secret") |
 | clientgateway.config.cache_server_url | string | `"https://volta-identitycache.energyweb.org/v1"` | Sets the Energy Web IAM cache server URL, used to cache identities (as it can be expensive to rely only on querying smart contract data). |
 | clientgateway.config.chain_id | int | `73799` | Sets the chain ID of the blockchain network. Options: 73799 (Volta), 246 (EWC) |
 | clientgateway.config.dsb_base_url | string | `"https://dsb-demo.energyweb.org"` | The URL of the DSB Message Broker you want to connect to. Trailing / allowed. |

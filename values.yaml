@@ -38,6 +38,8 @@ clientgateway:
     event_server_url: https://volta-identitycache.energyweb.org/
     # -- Sets the Energy Web IAM application namespace. DSB related roles, such as user and messagebroker should fall under this namespace.
     parent_namespace: dsb.apps.energyweb.iam.ewc
+    # -- Enable basic auth. (Once enabled, associated secret is required, eg: "dsb-client-gateway-secret")
+    basic_auth_enabled: false
 image:
   # repository: 098061033856.dkr.ecr.us-east-1.amazonaws.com/ew-dos-dsb-ecr
   repository: aemocontainerregistry.azurecr.io/dsb/client-gateway
