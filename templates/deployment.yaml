@@ -42,6 +42,19 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ include "dsb-client-gateway.fullname" . }}-configmap
+          {{- if .Values.clientgateway.config.basic_auth_enabled }}
+          env:
+            - name: USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "dsb-client-gateway.fullname" . }}-secret
+                  key: username
+            - name: PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "dsb-client-gateway.fullname" . }}-secret
+                  key: password
+          {{- end }}
           {{- if .Values.probes.liveness }}
           livenessProbe:
             httpGet:
