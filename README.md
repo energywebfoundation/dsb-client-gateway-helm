@@ -1,6 +1,6 @@
 # dsb-client-gateway
 
-![Version: 1.2.1](https://img.shields.io/badge/Version-1.2.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.4.0](https://img.shields.io/badge/AppVersion-0.4.0-informational?style=flat-square)
+![Version: 1.3.0](https://img.shields.io/badge/Version-1.3.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.4.0](https://img.shields.io/badge/AppVersion-0.4.0-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 ## Introduction
@@ -28,10 +28,10 @@ kubectl get pods
 | autoscaling.minReplicas | int | `1` |  |
 | autoscaling.targetCPUUtilizationPercentage | int | `80` |  |
 | clientgateway.config.basic_auth_enabled | bool | `false` | Enable basic auth. (Once enabled, associated secret is required, eg: "dsb-client-gateway-secret") |
-| clientgateway.config.cache_server_url | string | `"https://volta-identitycache.energyweb.org/v1"` | Sets the Energy Web IAM cache server URL, used to cache identities (as it can be expensive to rely only on querying smart contract data). |
+| clientgateway.config.cache_server_url | string | `"https://identitycache-staging.energyweb.org/v1"` | Sets the Energy Web IAM cache server URL, used to cache identities (as it can be expensive to rely only on querying smart contract data). |
 | clientgateway.config.chain_id | int | `73799` | Sets the chain ID of the blockchain network. Options: 73799 (Volta), 246 (EWC) |
 | clientgateway.config.dsb_base_url | string | `"https://dsb-demo.energyweb.org"` | The URL of the DSB Message Broker you want to connect to. Trailing / allowed. |
-| clientgateway.config.event_server_url | string | `"https://volta-identitycache.energyweb.org/"` | Sets the Energy Web IAM events server URL, used to receive notification of approved DSB role claims. |
+| clientgateway.config.event_server_url | string | `"https://identitycache-staging.energyweb.org/"` | Sets the Energy Web IAM events server URL, used to receive notification of approved DSB role claims. |
 | clientgateway.config.events_emit_mode | string | `"BULK"` | Defines the format for messages pushed over a real-time communication channel. If bulk mode is chosen, messages will be sent as an array. At every 1 second interval, the gateway will emit an array of the latest messages received. If single mode is chosen, messages will be sent individually. Options: BULK, SINGLE |
 | clientgateway.config.events_max_per_second | int | `100` | Defines how many events should be pushed per second, regardless of mode chosen (see above). |
 | clientgateway.config.in_memory_db_filename | string | `"in-memory.json"` | Sets the filename of the JSON file the DSB Client Gateway will write to. The file will be written to the current working directory (subject to change). |
