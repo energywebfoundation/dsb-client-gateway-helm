@@ -14,8 +14,8 @@ jobs:
         with:
           access_token: ${{ github.token }}
   
-  semantic-version:
-    name: Semantic versioning
+  manual-version:
+    name: Manual versioning
     runs-on: ubuntu-latest
     needs: [cancel-previous]
     steps:
@@ -56,13 +56,11 @@ jobs:
 
       - name: Azure Login
         uses: azure/login@v1
-        if: ${{ steps.sem_ver.outputs.changed == 'true' }}
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Azure CLI deploy to ACR
         uses: azure/CLI@v1
-        if: ${{ steps.sem_ver.outputs.changed == 'true' }}
         with:
           azcliversion: 2.30.0
           inlineScript: |
