@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "dsb-client-gateway.fullname" . }}
+  name: {{ include "ddhub-client-gateway-api.fullname" . }}
   labels:
-    {{- include "dsb-client-gateway.labels" . | nindent 4 }}
+    {{- include "ddhub-client-gateway-api.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "dsb-client-gateway.selectorLabels" . | nindent 6 }}
+      {{- include "ddhub-client-gateway-api.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -18,13 +18,13 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "dsb-client-gateway.selectorLabels" . | nindent 8 }}
+        {{- include "ddhub-client-gateway-api.selectorLabels" . | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "dsb-client-gateway.serviceAccountName" . }}
+      serviceAccountName: {{ include "ddhub-client-gateway-api.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
@@ -41,30 +41,27 @@ spec:
             {{- toYaml .Values.resources | nindent 12 }}
           envFrom:
             - configMapRef:
-                name: {{ include "dsb-client-gateway.fullname" . }}-configmap
+                name: {{ include "ddhub-client-gateway-api.fullname" . }}-configmap
           {{- if .Values.clientgateway.config.basic_auth_enabled }}
           env:
-            - name: USERNAME
+            - name: EVENTS_MAX_PER_SECOND
+              value: 2
+            - name: VAULT_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "dsb-client-gateway.fullname" . }}-secret
-                  key: username
-            - name: PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "dsb-client-gateway.fullname" . }}-secret
-                  key: password
+                  name: {{ include "ddhub-client-gateway-api.fullname" . }}-secret
+                  key: vault_token
           {{- end }}
           {{- if .Values.probes.liveness }}
           livenessProbe:
             httpGet:
-              path: /api/health
+              path: /api/v1/health
               port: http
           {{- end }}
           {{- if .Values.probes.readiness }}
           readinessProbe:
             httpGet:
-              path: /api/health
+              path: /api/v1/health
               port: http
           {{- end }}
           {{- if or .Values.pvc.enabled .Values.existingClaim.enabled }}
@@ -83,7 +80,7 @@ spec:
         {{- if .Values.pvc.enabled }}
         - name: volume
           persistentVolumeClaim:
-            claimName: {{ include "dsb-client-gateway.fullname" . }}
+            claimName: {{ include "ddhub-client-gateway-api.fullname" . }}
         {{- end }}
         {{- if .Values.existingClaim.enabled }}
         - name: existingclaim

@@ -2,9 +2,9 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: {{ include "dsb-client-gateway.fullname" . }}
+  name: {{ include "ddhub-client-gateway-api.fullname" . }}
   labels:
-    {{- include "dsb-client-gateway.labels" . | nindent 4 }}
+    {{- include "ddhub-client-gateway-api.labels" . | nindent 4 }}
 spec:
  storageClassName: {{ .Values.pvc.storageClassName | quote }}
  accessModes:

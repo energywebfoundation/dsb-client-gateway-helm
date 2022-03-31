@@ -1,4 +1,4 @@
-# Default values for dsb-client-gateway.
+# Default values for ddhub-client-gateway-api.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -7,7 +7,7 @@ replicaCount: 1
 clientgateway:
   config:
     # -- Define the port the gateway will run on.
-    port: 3000
+    port: 3333
     # -- Select WebSocket mode depending on architecture (i.e. preference for inbound or outbound connections). By default, the gateway will run a WebSocket server on /events. However, it can also operate as a client with additional configuration (see below). Alternatively, this functionality can be turned off. Options: SERVER, CLIENT, NONE
     websocket: NONE
     # -- Sets the URL of the WebSocket server the client should try to connect to. Required if WEBSOCKET is set to CLIENT.
@@ -23,11 +23,9 @@ clientgateway:
     # -- Defines the format for messages pushed over a real-time communication channel. If bulk mode is chosen, messages will be sent as an array. At every 1 second interval, the gateway will emit an array of the latest messages received. If single mode is chosen, messages will be sent individually. Options: BULK, SINGLE
     events_emit_mode: BULK
     # -- Defines how many events should be pushed per second, regardless of mode chosen (see above).
-    events_max_per_second: 100
+    events_max_per_second: 2
     # -- The URL of the DSB Message Broker you want to connect to. Trailing / allowed.
     dsb_base_url: https://dsb-demo.energyweb.org
-    # -- Sets the filename of the JSON file the DSB Client Gateway will write to. The file will be written to the current working directory (subject to change).
-    in_memory_db_filename: in-memory.json
     # -- Sets the chain ID of the blockchain network. Options: 73799 (Volta), 246 (EWC)
     chain_id: 73799
     # -- Sets the blockchain RPC node to connect to retreive state from and submit transactions to. Should match the network given in CHAIN_ID.
@@ -38,18 +36,21 @@ clientgateway:
     event_server_url: https://identitycache-staging.energyweb.org/
     # -- Sets the Energy Web IAM application namespace. DSB related roles, such as user and messagebroker should fall under this namespace.
     parent_namespace: dsb.apps.energyweb.iam.ewc
-    # -- Enable basic auth. (Once enabled, associated secret is required, eg: "dsb-client-gateway-secret")
+    secret_engine: vault
+    vault_endpoint: http://vault.ddhub-dev.svc:8200
+    # -- Enable basic auth. (Once enabled, associated secret is required, eg: "ddhub-client-gateway-api-secret")
     basic_auth_enabled: false
+    node_env: test
 image:
   # repository: 098061033856.dkr.ecr.us-east-1.amazonaws.com/ew-dos-dsb-ecr
-  repository: aemocontainerregistry.azurecr.io/dsb/client-gateway
+  repository: aemocontainerregistry.azurecr.io/ddhub-client-gateway-backend
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: canary
+  tag: d72a180a-6a08-43a3-a756-f2eea3958ad1
 
 imagePullSecrets: []
-nameOverride: "dsb-client-gateway"
-fullnameOverride: "dsb-client-gateway"
+nameOverride: "ddhub-client-gateway-api"
+fullnameOverride: "ddhub-client-gateway-api"
 
 serviceAccount:
   # Specifies whether a service account should be created
@@ -78,20 +79,21 @@ service:
   port: 80
 
 ingress:
-  enabled: false
-  annotations: {kubernetes.io/ingress.class: "alb",alb.ingress.kubernetes.io/scheme: "internet-facing"}
+  enabled: true
+  annotations: {kubernetes.io/ingress.class: azure/application-gateway, appgw.ingress.kubernetes.io/ssl-redirect: "true"}
     # kubernetes.io/tls-acme: "true"
   hosts:
-    - host: dsb-gateway-dev.energyweb.org
+    - host: ddhub-gateway-api-dev.energyweb.org
       paths:
       - path: /*
+        pathType: Prefix
         backend:
-          serviceName: client-gateway
+          serviceName: ddhub-client-gateway-api
           servicePort: 80
-  tls: []
-  #  - secretName: chart-example-tls
-  #    hosts:
-  #      - chart-example.local
+  tls:
+    - secretName: dsb-tls-secret
+      hosts:
+        - ddhub-gateway-api-dev.energyweb.org
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
