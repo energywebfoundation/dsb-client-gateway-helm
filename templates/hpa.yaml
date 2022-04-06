@@ -2,14 +2,14 @@
 apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
-  name: {{ include "dsb-client-gateway.fullname" . }}
+  name: {{ include "ddhub-client-gateway-ui.fullname" . }}
   labels:
-    {{- include "dsb-client-gateway.labels" . | nindent 4 }}
+    {{- include "ddhub-client-gateway-ui.labels" . | nindent 4 }}
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: {{ include "dsb-client-gateway.fullname" . }}
+    name: {{ include "ddhub-client-gateway-ui.fullname" . }}
   minReplicas: {{ .Values.autoscaling.minReplicas }}
   maxReplicas: {{ .Values.autoscaling.maxReplicas }}
   metrics:

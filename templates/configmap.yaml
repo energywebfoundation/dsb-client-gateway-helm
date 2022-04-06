@@ -1,23 +1,11 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "dsb-client-gateway.fullname" . }}-configmap
+  name: {{ include "ddhub-client-gateway-ui.fullname" . }}-configmap
   labels:
-    {{- include "dsb-client-gateway.labels" . | nindent 4 }}
+    {{- include "ddhub-client-gateway-ui.labels" . | nindent 4 }}
 data:
   PORT: {{ .Values.clientgateway.config.port | quote }}
-  WEBSOCKET: {{ .Values.clientgateway.config.websocket | quote }}
-  WEBSOCKET_URL: {{ .Values.clientgateway.config.websocket_url | quote }}
-  WEBSOCKET_PROTOCOL: {{ .Values.clientgateway.config.websocket_protocol | quote }}
-  WEBSOCKET_RECONNECT: {{ .Values.clientgateway.config.websocket_reconnect | quote }}
-  WEBSOCKET_RECONNECT_TIMEOUT: {{ .Values.clientgateway.config.websocket_reconnect_timeout | quote }}
-  WEBSOCKET_RECONNECT_MAX_RETRIES: {{ .Values.clientgateway.config.websocket_reconnect_max_retries | quote }}
-  EVENTS_EMIT_MODE: {{ .Values.clientgateway.config.events_emit_mode | quote }}
-  EVENTS_MAX_PER_SECOND: {{ .Values.clientgateway.config.events_max_per_second | quote }}
-  DSB_BASE_URL: {{ .Values.clientgateway.config.dsb_base_url | quote }}
-  IN_MEMORY_DB_FILENAME: {{ .Values.clientgateway.config.in_memory_db_filename | quote }}
-  CHAIN_ID: {{ .Values.clientgateway.config.chain_id | quote }}
-  RPC_URL: {{ .Values.clientgateway.config.rpc_url | quote }}
-  CACHE_SERVER_URL: {{ .Values.clientgateway.config.cache_server_url | quote }}
-  EVENT_SERVER_URL: {{ .Values.clientgateway.config.event_server_url | quote }}
+  NEXT_PUBLIC_SENTRY_ENABLED: {{ .Values.clientgateway.config.public_sentry_enabled | quote }}
+  NEXT_PUBLIC_SERVER_BASE_URL: {{ .Values.clientgateway.config.backend_api_url | quote }}
   PARENT_NAMESPACE: {{ .Values.clientgateway.config.parent_namespace | quote }}
