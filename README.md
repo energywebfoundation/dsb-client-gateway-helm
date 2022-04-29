@@ -1,6 +1,6 @@
 # ddhub-client-gateway-api
 
-![Version: 0.1.0](https://img.shields.io/badge/Version-0.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.4.0](https://img.shields.io/badge/AppVersion-0.4.0-informational?style=flat-square)
+![Version: 0.1.1](https://img.shields.io/badge/Version-0.1.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.4.0](https://img.shields.io/badge/AppVersion-0.4.0-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -38,7 +38,7 @@ A Helm chart for Kubernetes
 | clientgateway.config.websocket_reconnect_max_retries | int | `10` | Define how many times the WebSocket client should attempt reconnection with the server upon receving connection error/close. |
 | clientgateway.config.websocket_reconnect_timeout | int | `10000` | Define the interval between receiving a connection error/close and attempting to reconnect, in milliseconds. |
 | clientgateway.config.websocket_url | string | `""` | Sets the URL of the WebSocket server the client should try to connect to. Required if WEBSOCKET is set to CLIENT. |
-| ddhub-client-gateway-frontend.enabled | bool | `false` |  |
+| ddhub-client-gateway-ui.enabled | bool | `false` |  |
 | existingClaim.claimName | string | `"my-claim"` |  |
 | existingClaim.enabled | bool | `false` |  |
 | existingClaim.mountPath | string | `"/mnt/claim"` |  |
