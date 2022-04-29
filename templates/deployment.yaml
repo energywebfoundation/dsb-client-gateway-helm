@@ -55,13 +55,13 @@ spec:
           {{- if .Values.probes.liveness }}
           livenessProbe:
             httpGet:
-              path: /api/v1/health
+              path: /api/v2/health
               port: http
           {{- end }}
           {{- if .Values.probes.readiness }}
           readinessProbe:
             httpGet:
-              path: /api/v1/health
+              path: /api/v2/health
               port: http
           {{- end }}
           {{- if or .Values.pvc.enabled .Values.existingClaim.enabled }}

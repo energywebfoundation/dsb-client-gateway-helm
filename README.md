@@ -1,8 +1,14 @@
 # ddhub-client-gateway-api
 
-![Version: 0.0.1](https://img.shields.io/badge/Version-0.0.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.4.0](https://img.shields.io/badge/AppVersion-0.4.0-informational?style=flat-square)
+![Version: 0.1.0](https://img.shields.io/badge/Version-0.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.4.0](https://img.shields.io/badge/AppVersion-0.4.0-informational?style=flat-square)
 
 A Helm chart for Kubernetes
+
+## Requirements
+
+| Repository | Name | Version |
+|------------|------|---------|
+| https://aemocontainerregistry.azurecr.io/helm/v1/repo | ddhub-client-gateway-ui | 0.0.1 |
 
 ## Values
 
@@ -16,7 +22,7 @@ A Helm chart for Kubernetes
 | clientgateway.config.basic_auth_enabled | bool | `false` | Enable basic auth. (Once enabled, associated secret is required, eg: "ddhub-client-gateway-api-secret") |
 | clientgateway.config.cache_server_url | string | `"https://identitycache-staging.energyweb.org/v1"` | Sets the Energy Web IAM cache server URL, used to cache identities (as it can be expensive to rely only on querying smart contract data). |
 | clientgateway.config.chain_id | int | `73799` | Sets the chain ID of the blockchain network. Options: 73799 (Volta), 246 (EWC) |
-| clientgateway.config.dsb_base_url | string | `"https://dsb-demo.energyweb.org"` | The URL of the DSB Message Broker you want to connect to. Trailing / allowed. |
+| clientgateway.config.dsb_base_url | string | `"http://ddhub-messagebroker.ddhub-dev.svc"` | The URL of the DSB Message Broker you want to connect to. Trailing / allowed. |
 | clientgateway.config.event_server_url | string | `"https://identitycache-staging.energyweb.org/"` | Sets the Energy Web IAM events server URL, used to receive notification of approved DSB role claims. |
 | clientgateway.config.events_emit_mode | string | `"BULK"` | Defines the format for messages pushed over a real-time communication channel. If bulk mode is chosen, messages will be sent as an array. At every 1 second interval, the gateway will emit an array of the latest messages received. If single mode is chosen, messages will be sent individually. Options: BULK, SINGLE |
 | clientgateway.config.events_max_per_second | int | `2` | Defines how many events should be pushed per second, regardless of mode chosen (see above). |
@@ -32,17 +38,18 @@ A Helm chart for Kubernetes
 | clientgateway.config.websocket_reconnect_max_retries | int | `10` | Define how many times the WebSocket client should attempt reconnection with the server upon receving connection error/close. |
 | clientgateway.config.websocket_reconnect_timeout | int | `10000` | Define the interval between receiving a connection error/close and attempting to reconnect, in milliseconds. |
 | clientgateway.config.websocket_url | string | `""` | Sets the URL of the WebSocket server the client should try to connect to. Required if WEBSOCKET is set to CLIENT. |
+| ddhub-client-gateway-frontend.enabled | bool | `false` |  |
 | existingClaim.claimName | string | `"my-claim"` |  |
 | existingClaim.enabled | bool | `false` |  |
 | existingClaim.mountPath | string | `"/mnt/claim"` |  |
 | fullnameOverride | string | `"ddhub-client-gateway-api"` |  |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
 | image.repository | string | `"aemocontainerregistry.azurecr.io/ddhub-client-gateway-backend"` |  |
-| image.tag | string | `"d72a180a-6a08-43a3-a756-f2eea3958ad1"` |  |
+| image.tag | string | `"canary"` |  |
 | imagePullSecrets | list | `[]` |  |
 | ingress.annotations."appgw.ingress.kubernetes.io/ssl-redirect" | string | `"true"` |  |
 | ingress.annotations."kubernetes.io/ingress.class" | string | `"azure/application-gateway"` |  |
-| ingress.enabled | bool | `true` |  |
+| ingress.enabled | bool | `false` |  |
 | ingress.hosts[0].host | string | `"ddhub-gateway-api-dev.energyweb.org"` |  |
 | ingress.hosts[0].paths[0].backend.serviceName | string | `"ddhub-client-gateway-api"` |  |
 | ingress.hosts[0].paths[0].backend.servicePort | int | `80` |  |
