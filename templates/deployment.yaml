@@ -42,14 +42,12 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ include "ddhub-client-gateway-api.fullname" . }}-configmap
-          {{- if .Values.clientgateway.config.basic_auth_enabled }}
           env:
             - name: VAULT_TOKEN
               valueFrom:
                 secretKeyRef:
                   name: {{ include "ddhub-client-gateway-api.fullname" . }}-secret
                   key: vault_token
-          {{- end }}
           {{- if .Values.probes.liveness }}
           livenessProbe:
             httpGet:

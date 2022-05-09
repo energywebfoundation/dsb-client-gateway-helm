@@ -20,5 +20,6 @@ data:
   EVENT_SERVER_URL: {{ .Values.clientgateway.config.event_server_url | quote }}
   PARENT_NAMESPACE: {{ .Values.clientgateway.config.parent_namespace | quote }}
   SECRETS_ENGINE: {{ .Values.clientgateway.config.secret_engine | quote }}
-  VAULT_ENDPOINT: {{ .Values.clientgateway.config.vault_endpoint | quote }}
+  VAULT_ENDPOINT: {{ .Values.clientgateway.config.secret_engine_endpoint | quote }}
   NODE_ENV: {{ .Values.clientgateway.config.node_env | quote }}
+  DB_NAME: {{ .Values.clientgateway.config.db_name | quote }}
