@@ -65,5 +65,6 @@ jobs:
           azcliversion: 2.30.0
           inlineScript: |
             az acr helm install-cli --client-version 3.6.3 --yes
+            helm dependency update
             helm package .
-            az acr helm push -n ${{ secrets.HELM_REGISTRY }} ddhub-client-gateway-api-0.0.1.tgz
+            az acr helm push -n ${{ secrets.HELM_REGISTRY }} ddhub-client-gateway-api-0.1.0.tgz

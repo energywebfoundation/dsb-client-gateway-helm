@@ -44,8 +44,6 @@ spec:
                 name: {{ include "ddhub-client-gateway-api.fullname" . }}-configmap
           {{- if .Values.clientgateway.config.basic_auth_enabled }}
           env:
-            - name: EVENTS_MAX_PER_SECOND
-              value: 2
             - name: VAULT_TOKEN
               valueFrom:
                 secretKeyRef:
