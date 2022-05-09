@@ -1,6 +1,6 @@
 # ddhub-client-gateway-api
 
-![Version: 0.1.0](https://img.shields.io/badge/Version-0.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.4.0](https://img.shields.io/badge/AppVersion-0.4.0-informational?style=flat-square)
+![Version: 0.1.1](https://img.shields.io/badge/Version-0.1.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.4.0](https://img.shields.io/badge/AppVersion-0.4.0-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -19,19 +19,19 @@ A Helm chart for Kubernetes
 | autoscaling.maxReplicas | int | `100` |  |
 | autoscaling.minReplicas | int | `1` |  |
 | autoscaling.targetCPUUtilizationPercentage | int | `80` |  |
-| clientgateway.config.basic_auth_enabled | bool | `false` | Enable basic auth. (Once enabled, associated secret is required, eg: "ddhub-client-gateway-api-secret") |
 | clientgateway.config.cache_server_url | string | `"https://identitycache-staging.energyweb.org/v1"` | Sets the Energy Web IAM cache server URL, used to cache identities (as it can be expensive to rely only on querying smart contract data). |
 | clientgateway.config.chain_id | int | `73799` | Sets the chain ID of the blockchain network. Options: 73799 (Volta), 246 (EWC) |
+| clientgateway.config.db_name | string | `"local.db"` | Sets the database name / path for channel configurations. |
 | clientgateway.config.dsb_base_url | string | `"http://ddhub-messagebroker.ddhub-dev.svc"` | The URL of the DSB Message Broker you want to connect to. Trailing / allowed. |
 | clientgateway.config.event_server_url | string | `"https://identitycache-staging.energyweb.org/"` | Sets the Energy Web IAM events server URL, used to receive notification of approved DSB role claims. |
 | clientgateway.config.events_emit_mode | string | `"BULK"` | Defines the format for messages pushed over a real-time communication channel. If bulk mode is chosen, messages will be sent as an array. At every 1 second interval, the gateway will emit an array of the latest messages received. If single mode is chosen, messages will be sent individually. Options: BULK, SINGLE |
 | clientgateway.config.events_max_per_second | int | `2` | Defines how many events should be pushed per second, regardless of mode chosen (see above). |
-| clientgateway.config.node_env | string | `"test"` |  |
+| clientgateway.config.node_env | string | `"test"` | Sets the application environment. |
 | clientgateway.config.parent_namespace | string | `"dsb.apps.energyweb.iam.ewc"` | Sets the Energy Web IAM application namespace. DSB related roles, such as user and messagebroker should fall under this namespace. |
 | clientgateway.config.port | int | `3333` | Define the port the gateway will run on. |
 | clientgateway.config.rpc_url | string | `"https://volta-rpc.energyweb.org/"` | Sets the blockchain RPC node to connect to retreive state from and submit transactions to. Should match the network given in CHAIN_ID. |
-| clientgateway.config.secret_engine | string | `"vault"` |  |
-| clientgateway.config.vault_endpoint | string | `"http://vault.ddhub-dev.svc:8200"` |  |
+| clientgateway.config.secret_engine | string | `"vault"` | Sets the secret engine for storing DID private key. it can be Vault/AWS SSM/Azure KeyVault/GCP Secret Manager. |
+| clientgateway.config.secret_engine_endpoint | string | `"http://vault.ddhub-dev.svc:8200"` | Sets the secret engine endpoint. the secret engine server URL. |
 | clientgateway.config.websocket | string | `"NONE"` | Select WebSocket mode depending on architecture (i.e. preference for inbound or outbound connections). By default, the gateway will run a WebSocket server on /events. However, it can also operate as a client with additional configuration (see below). Alternatively, this functionality can be turned off. Options: SERVER, CLIENT, NONE |
 | clientgateway.config.websocket_protocol | string | `""` | Sets the protocol the WebSocket client should request access to. Acceptable protocols are defined by the WebSocket server, however, this can also be left undefined. Note that if WEBSOCKET is set to SERVER this variable is ignored. The server will only accept connection requests on the dsb-messages protocol. |
 | clientgateway.config.websocket_reconnect | bool | `false` | Define whether the WebSocket client should reconnect on connection error/close. |
