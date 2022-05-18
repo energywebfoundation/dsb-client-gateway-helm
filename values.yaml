@@ -36,11 +36,14 @@ clientgateway:
     event_server_url: https://identitycache-staging.energyweb.org/
     # -- Sets the Energy Web IAM application namespace. DSB related roles, such as user and messagebroker should fall under this namespace.
     parent_namespace: dsb.apps.energyweb.iam.ewc
+    # -- Sets the secret engine for storing DID private key. it can be Vault/AWS SSM/Azure KeyVault/GCP Secret Manager.
     secret_engine: vault
-    vault_endpoint: http://vault.ddhub-dev.svc:8200
-    # -- Enable basic auth. (Once enabled, associated secret is required, eg: "ddhub-client-gateway-api-secret")
-    basic_auth_enabled: false
+    # -- Sets the secret engine endpoint. the secret engine server URL.
+    secret_engine_endpoint: http://vault.ddhub-dev.svc:8200
+    # -- Sets the application environment.
     node_env: test
+    # -- Sets the database name / path for channel configurations.
+    db_name: 'local.db'
 image:
   # repository: 098061033856.dkr.ecr.us-east-1.amazonaws.com/ew-dos-dsb-ecr
   repository: aemocontainerregistry.azurecr.io/ddhub-client-gateway-backend
