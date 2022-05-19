@@ -57,7 +57,7 @@ clientgateway:
     # -- Sets opentelemetry telemetry environment. default: "local"
     opentelemetry_otel_environment: ""
   scheduler:
-    enabled: true
+    enabled: false
     image:
       repository: aemocontainerregistry.azurecr.io/ddhub-client-gateway-scheduler
       pullPolicy: IfNotPresent
