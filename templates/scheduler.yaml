@@ -1,0 +1,93 @@
+{{- if .Values.clientgateway.scheduler.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "ddhub-client-gateway-api.fullname" . }}-scheduler
+  labels:
+    {{- include "ddhub-client-gateway-api.scheduler.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "ddhub-client-gateway-api.scheduler.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.clientgateway.scheduler.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "ddhub-client-gateway-api.scheduler.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "ddhub-client-gateway-api.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}-scheduler
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.clientgateway.scheduler.image.repository }}:{{ .Values.clientgateway.scheduler.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.clientgateway.scheduler.image.pullPolicy }}
+          resources:
+            {{- toYaml .Values.clientgateway.scheduler.resources | nindent 12 }}
+          envFrom:
+            - configMapRef:
+                name: {{ include "ddhub-client-gateway-api.fullname" . }}-configmap
+          env:
+            - name: VAULT_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "ddhub-client-gateway-api.fullname" . }}-secret
+                  key: vault_token
+          {{- if .Values.clientgateway.scheduler.probes.liveness }}
+          livenessProbe:
+            exec: 
+              command:
+                - ls
+          {{- end }}
+          {{- if .Values.clientgateway.scheduler.probes.readiness }}
+          readinessProbe:
+            exec: 
+              command:
+                - ls
+          {{- end }}
+          {{- if or .Values.pvc.enabled .Values.existingClaim.enabled }}
+          volumeMounts:
+          {{- if .Values.pvc.enabled }}
+          - mountPath: {{ .Values.pvc.mountPath | quote }}
+            name: volume
+          {{- end }}
+          {{- if .Values.existingClaim.enabled }}
+          - mountPath: {{ .Values.existingClaim.mountPath | quote }}
+            name: existingclaim
+          {{- end }}
+          {{- end }}
+      {{- if or .Values.pvc.enabled .Values.existingClaim.enabled }}
+      volumes:
+        {{- if .Values.pvc.enabled }}
+        - name: volume
+          persistentVolumeClaim:
+            claimName: {{ include "ddhub-client-gateway-api.fullname" . }}
+        {{- end }}
+        {{- if .Values.existingClaim.enabled }}
+        - name: existingclaim
+          persistentVolumeClaim:
+            claimName: {{ .Values.existingClaim.claimName | quote }}
+        {{- end }}
+      {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }}

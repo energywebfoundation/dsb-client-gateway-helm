@@ -23,3 +23,12 @@ data:
   VAULT_ENDPOINT: {{ .Values.clientgateway.config.secret_engine_endpoint | quote }}
   NODE_ENV: {{ .Values.clientgateway.config.node_env | quote }}
   DB_NAME: {{ .Values.clientgateway.config.db_name | quote }}
+  OPENTELEMETRY_ENABLED: {{ .Values.clientgateway.config.opentelemetry_enabled | quote }}
+  OTEL_TRACING_URL: {{ .Values.clientgateway.config.opentelemetry_otel_collector_url | quote }}
+  OPEN_TELEMETRY_EXPORTER: {{ .Values.clientgateway.config.opentelemetry_exporter | quote }}
+  OTEL_IGNORED_ROUTES: {{ .Values.clientgateway.config.opentelemetry_otel_ignored_routes | quote }}
+  OTEL_SERVICE_NAME: {{ .Values.clientgateway.config.opentelemetry_otel_service_name | quote }}
+  OTEL_ENVIRONMENT: {{ .Values.clientgateway.config.opentelemetry_otel_environment | quote }}
+  {{- if .Values.clientgateway.scheduler.enabled }}
+  {{- toYaml .Values.clientgateway.scheduler.appConfig | nindent 2 }}
+  {{- end }}
