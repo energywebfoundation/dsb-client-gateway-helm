@@ -51,6 +51,26 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
+Common scheduler labels
+*/}}
+{{- define "ddhub-client-gateway-api.scheduler.labels" -}}
+helm.sh/chart: {{ include "ddhub-client-gateway-api.chart" . }}
+{{ include "ddhub-client-gateway-api.scheduler.selectorLabels" . }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end }}
+
+{{/*
+Selector scheduler labels
+*/}}
+{{- define "ddhub-client-gateway-api.scheduler.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "ddhub-client-gateway-api.name" . }}-scheduler
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}
+
+{{/*
 Create the name of the service account to use
 */}}
 {{- define "ddhub-client-gateway-api.serviceAccountName" -}}
