@@ -3,34 +3,66 @@ kind: Deployment
 metadata:
   name: {{ include "ddhub-client-gateway-api.fullname" . }}
   labels:
-    {{- include "ddhub-client-gateway-api.labels" . | nindent 4 }}
+  {{- include "ddhub-client-gateway-api.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "ddhub-client-gateway-api.selectorLabels" . | nindent 6 }}
+  {{- include "ddhub-client-gateway-api.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
       annotations:
-        {{- toYaml . | nindent 8 }}
+      {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "ddhub-client-gateway-api.selectorLabels" . | nindent 8 }}
+    {{- include "ddhub-client-gateway-api.selectorLabels" . | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
+      {{- toYaml . | nindent 8 }}
       {{- end }}
       serviceAccountName: {{ include "ddhub-client-gateway-api.serviceAccountName" . }}
       securityContext:
-        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      initContainers:
+        - name: {{ .Chart.Name }}-typeorm-migrations
+          securityContext:
+          {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          resources:
+          {{- toYaml .Values.resources | nindent 12 }}
+          command:
+            - "npm"
+            - "run"
+            - "migrations:run"
+          envFrom:
+            - configMapRef:
+                name: {{ include "ddhub-client-gateway-api.fullname" . }}-configmap
+          env:
+            - name: VAULT_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "ddhub-client-gateway-api.fullname" . }}-secret
+                  key: vault_token
+          {{- if or .Values.pvc.enabled .Values.existingClaim.enabled }}
+          volumeMounts:
+            {{- if .Values.pvc.enabled }}
+            - mountPath: {{ .Values.pvc.mountPath | quote }}
+              name: volume
+            {{- end }}
+            {{- if .Values.existingClaim.enabled }}
+            - mountPath: {{ .Values.existingClaim.mountPath | quote }}
+              name: existingclaim
+      {{- end }}
+      {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
+          {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
@@ -38,7 +70,7 @@ spec:
               containerPort: {{ .Values.clientgateway.config.port | default 3000 }}
               protocol: TCP
           resources:
-            {{- toYaml .Values.resources | nindent 12 }}
+          {{- toYaml .Values.resources | nindent 12 }}
           envFrom:
             - configMapRef:
                 name: {{ include "ddhub-client-gateway-api.fullname" . }}-configmap
@@ -62,15 +94,15 @@ spec:
           {{- end }}
           {{- if or .Values.pvc.enabled .Values.existingClaim.enabled }}
           volumeMounts:
-          {{- if .Values.pvc.enabled }}
-          - mountPath: {{ .Values.pvc.mountPath | quote }}
-            name: volume
+            {{- if .Values.pvc.enabled }}
+            - mountPath: {{ .Values.pvc.mountPath | quote }}
+              name: volume
+            {{- end }}
+            {{- if .Values.existingClaim.enabled }}
+            - mountPath: {{ .Values.existingClaim.mountPath | quote }}
+              name: existingclaim
           {{- end }}
-          {{- if .Values.existingClaim.enabled }}
-          - mountPath: {{ .Values.existingClaim.mountPath | quote }}
-            name: existingclaim
-          {{- end }}
-          {{- end }}
+      {{- end }}
       {{- if or .Values.pvc.enabled .Values.existingClaim.enabled }}
       volumes:
         {{- if .Values.pvc.enabled }}
@@ -82,17 +114,17 @@ spec:
         - name: existingclaim
           persistentVolumeClaim:
             claimName: {{ .Values.existingClaim.claimName | quote }}
-        {{- end }}
+      {{- end }}
       {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
-        {{- toYaml . | nindent 8 }}
+      {{- toYaml . | nindent 8 }}
       {{- end }}
       {{- with .Values.affinity }}
       affinity:
-        {{- toYaml . | nindent 8 }}
+      {{- toYaml . | nindent 8 }}
       {{- end }}
       {{- with .Values.tolerations }}
       tolerations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+      {{- toYaml . | nindent 8 }}
+  {{- end }}
